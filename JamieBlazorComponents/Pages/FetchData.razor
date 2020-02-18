@@ -1,0 +1,46 @@
+﻿@page "/fetchdata"
+
+@using JamieBlazorComponents.Data
+@using JamieBlazorComponentLibrary.Components.AutoComplete
+@inject WeatherForecastService ForecastService
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (_cars == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <MultiSelect  @bind-Value ="_selectedCar" Items="_cars" getValue="x => x.Brand" ></MultiSelect>
+
+    <h1>Selected Car</h1>
+    <div>
+        Id: @_selectedCar.Id
+        Brand: @_selectedCar.Brand
+        Country:  @_selectedCar.Country
+
+    </div>   
+}
+
+@code {
+    private Car _selectedCar = new Car();
+    private Car[] _cars;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        _cars = new Car[] {
+        new Car { Id = 1, Brand = "Bmw", Country = "Germany" },
+        new Car { Id = 1, Brand = "Porsche", Country = "Germany" },
+        new Car { Id = 1, Brand = "Volswagen", Country = "Germany" },
+        new Car { Id = 1, Brand = "Ford", Country = "USA" },
+        new Car { Id = 1, Brand = "Alfa Romeo", Country = "Italy" },
+        new Car { Id = 1, Brand = "Cheverolet", Country = "USA" },
+        new Car { Id = 1, Brand = "Peugot", Country = "France" },
+        new Car { Id = 1, Brand = "Lamborghini", Country = "Italy" },
+        new Car { Id = 1, Brand = "TVR", Country = "UK" },};
+    }
+}
