@@ -1,0 +1,19 @@
+﻿<div id="open-modal" class="modal-window@(IsOpen?" modal-open":"")">
+    <div>
+        <a href="#" title="Close" class="modal-close">Close</a>
+        @ChildContent
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public bool Toggle { get; set; }
+    [Parameter]
+    public bool IsOpen { get; set; }
+    [Parameter]
+    public EventCallback<bool> IsOpenChanged { get; set; }
+    [Parameter]
+    public  RenderFragment ChildContent { get; set; }
+
+}

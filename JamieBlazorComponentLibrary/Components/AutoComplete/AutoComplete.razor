@@ -1,0 +1,155 @@
+﻿@typeparam T
+
+@inject IJSRuntime JSRuntime
+
+
+
+<div class="select-item-container">
+    <div class="group">
+        <i @onclick="ClearInput" class="material-icons clear-input">
+            clear
+        </i>
+        <input id="search" required="required" @bind-value="_searchString" autocomplete="off"
+               @onfocus="@(() => _dropDownOpen =true)" @onkeydown="KeyDown" @bind-value:event="oninput" @ref="_inputElement" />
+        <span class="highlight"></span><span class="bar"></span>
+        <label for="search">@Label</label>
+    </div>
+  
+        <div  @onkeydown="KeyDown" class="dropdown @(_dropDownOpen ? "" : "dropdown-hide")">
+
+            @if (Items != null)
+            {
+                <ul>
+                    @foreach (var item in FilterItems(_searchString))
+                    {
+                        if (item.Equals(_selectedItem))
+                        {
+                            <li class="dropdown-item dropdown-item-selected" @onmousedown="@(e => SelectItem(item))">@DisplayField(item)</li>
+                        }
+                        else
+                        {
+                            <li class="dropdown-item @(item.Equals(_highlightedItem) ? " dropdown-item-highlighted" : "")" @onmousedown="@(e => SelectItem(item))">@DisplayField(item)</li>
+                        }
+                    }
+
+                </ul>
+            }
+        </div>
+    </div>
+
+@code{
+
+
+    [Parameter]
+    public ICollection<T> Items { get; set; }
+
+    [Parameter]
+    public Func<T, string> DisplayField { get; set; }
+    [Parameter]
+    public T Value { get; set; }
+    [Parameter]
+    public EventCallback<T> ValueChanged { get; set; }
+    [Parameter]
+    public string Label { get; set; }
+
+
+    T _highlightedItem;
+    T _selectedItem;
+    T _emptyItem;
+
+    string _searchString = string.Empty;
+    bool _dropDownOpen;
+    ElementReference _inputElement;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("functions.setupCloseDropDown", DotNetObjectReference.Create(this));
+        }
+    }
+
+    private List<T> FilterItems(string searchString)
+    {
+        return Items.Where(x => DisplayField(x).ToLower().Contains(searchString.ToLower())).ToList();
+    }
+
+    [JSInvokable]
+    public async Task CloseDropDown()
+    {
+
+        _dropDownOpen = false;
+        _highlightedItem = _emptyItem;
+        StateHasChanged();
+    }
+
+
+    private async Task KeyDown(KeyboardEventArgs args)
+    {
+        _dropDownOpen = true;
+        var itemsList = FilterItems(_searchString).ToList();
+
+
+        if (args.Key == "ArrowDown" || args.Key == "Down")
+
+        {
+
+            if (itemsList.Contains(_highlightedItem))
+            {
+
+                if (itemsList.IndexOf(_highlightedItem) != itemsList.Count() - 1)
+                {
+
+                    _highlightedItem = itemsList[itemsList.IndexOf(_highlightedItem) + 1];
+                    await JSRuntime.InvokeVoidAsync("functions.checkItemListScroll",args.Key);
+                }
+            }
+            else
+            {
+                _highlightedItem = itemsList[0];
+            }
+
+        }
+        if (args.Key == "ArrowUp" || args.Key == "Up")
+
+        {
+            if (itemsList.Contains(_highlightedItem))
+            {
+
+                if (itemsList.IndexOf(_highlightedItem) != 0)
+                {
+
+                    _highlightedItem = itemsList[itemsList.IndexOf(_highlightedItem) - 1];
+                    await JSRuntime.InvokeVoidAsync("functions.checkItemListScroll",args.Key);
+                }
+            }
+            else
+            {
+                _highlightedItem = itemsList[0];
+            }
+
+        }
+
+        if (args.Key == "Enter")
+        {
+            await SelectItem(_highlightedItem);
+        }
+    }
+
+    private async Task SelectItem(T selectedItem)
+    {
+        _searchString = DisplayField(selectedItem);
+        Value = selectedItem;
+        _selectedItem = selectedItem;
+        await ValueChanged.InvokeAsync(Value);
+        await JSRuntime.InvokeVoidAsync("functions.focusElement", _inputElement);
+        await CloseDropDown();
+    }
+
+    private async Task ClearInput()
+    {
+        _searchString = "";
+        await JSRuntime.InvokeVoidAsync("functions.focusElement", _inputElement);
+    }
+
+}

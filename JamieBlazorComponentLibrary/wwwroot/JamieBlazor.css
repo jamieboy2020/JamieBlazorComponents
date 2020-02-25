@@ -1,40 +1,53 @@
-﻿/* MultiSelect*/
+﻿@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 
-.select-item-container input{
-    max-width:100%;
+/*AutoComplete*/
+
+.select-item-container input {
+    max-width: 100%;
 }
+
 .dropdown {
     border: 2px solid;
-    max-height: 20vh;
+    max-height: 60vh;
     border-top: none;
-    border-color: #2196f3;
+    border-color: #1d2a59;
     padding: 0px;
-    overflow-y:scroll;
+    overflow-y: scroll;
 }
 
-.dropdown ul{
-    padding:0px;
-}
+    .dropdown ul {
+        padding: 0px;
+    }
 
-.dropdown-item:hover {
+.dropdown-item:focus {
     background-color: #c6c6c6;
     cursor: pointer;
 }
 
-.dropdown-item-selected {
 
+.dropdown-item-highlighted {
     background-color: #c6c6c6;
 }
+
+.dropdown-item-selected,
+.dropdown-item-selected:hover {
+    background-color: #1d2a59;
+    color: white;
+}
+
 .dropdown-hide {
-    display:none;
+    display: none;
 }
 
 
 /* Input Button*/
 
+.select-item-container {
+    padding-top: 10px;
+}
+
 .group {
-    position: relative;  
-   
+    position: relative;
 }
 
 textarea {
@@ -62,8 +75,8 @@ textarea {
         textarea:focus ~ label,
         textarea:valid ~ label {
             top: -14px;
-            font-size: 12px;
-            color: #2196f3;
+            font-size: 14px;
+            color: rebeccapurple;
         }
 
         input:focus ~ .bar:before,
@@ -74,6 +87,10 @@ textarea {
     input[type="password"] {
         letter-spacing: 0.3em;
     }
+
+input::-ms-clear {
+    display: none;
+}
 
 label {
     color: #c6c6c6;
@@ -99,8 +116,78 @@ label {
         width: 0;
         bottom: 0px;
         position: absolute;
-        background: #2196f3;
+        background: #1d2a59;
         -webkit-transition: 300ms ease all;
         transition: 300ms ease all;
         left: 0%;
+    }
+
+.clear-input {
+    float: right;
+    position:relative;
+    top:5px;
+}
+
+.clear-input:hover {
+    cursor: pointer;
+}
+
+
+/*Modal*/
+.modal-window {
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.25);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+    .modal-window.modal-open {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .modal-window > div {
+        width: 400px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        padding: 2em;
+        background: #ffffff;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    }
+
+    .modal-window header {
+        font-weight: bold;
+    }
+
+    .modal-window h1 {
+        font-size: 150%;
+        margin: 0 0 15px;
+    }
+
+.modal-close {
+    color: #aaa;
+    line-height: 50px;
+    font-size: 80%;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    width: 70px;
+    text-decoration: none;
+}
+
+    .modal-close:hover {
+        color: black;
     }

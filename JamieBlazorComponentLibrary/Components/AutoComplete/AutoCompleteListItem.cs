@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JamieBlazorComponentLibrary.Components.AutoComplete
 {
-    public class ListItem<T>
+    public class AutoCompleteListItem<T>
     {
         public T Item { get; set; }
         public bool Highlighted { get; set; }

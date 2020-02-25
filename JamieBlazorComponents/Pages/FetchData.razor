@@ -2,37 +2,40 @@
 
 @using JamieBlazorComponents.Data
 @using JamieBlazorComponentLibrary.Components.AutoComplete
+@using JamieBlazorComponentLibrary.Components.Modal
 @inject WeatherForecastService ForecastService
 
 <h1>Weather forecast</h1>
 
 <p>This component demonstrates fetching data from a service.</p>
 
-@if (_cars == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <MultiSelect  @bind-Value ="_selectedCar" Items="_cars" getValue="x => x.Brand" ></MultiSelect>
+<AutoComplete Label="Select a qualification" @bind-Value="_selectedCar" Items="_cars" DisplayField="x => x.Brand"></AutoComplete>
+<button @onclick="LoadCars">Load Cars</button>
+<h1>Selected Car</h1>
+<div>
+    Id: @_selectedCar.Id
+    Brand: @_selectedCar.Brand
+    Country:  @_selectedCar.Country
 
-    <h1>Selected Car</h1>
-    <div>
-        Id: @_selectedCar.Id
-        Brand: @_selectedCar.Brand
-        Country:  @_selectedCar.Country
-
-    </div>   
-}
-
+</div>
+<AutoComplete Label="Select a qualification" @bind-Value="_selectedCar" Items="_cars" DisplayField="x => x.Brand"></AutoComplete>
+<Modal @bind-IsOpen="_openModal">
+    <ModalTitle>Testing</ModalTitle>
+    <ModalBody>This is a test to see if the body works</ModalBody>
+</Modal>
+<button @onclick="ModalOpen">Open Modal</button>
 @code {
     private Car _selectedCar = new Car();
     private Car[] _cars;
+    private Car[] _loadedCars;
+    private bool _openModal;
 
 
     protected override async Task OnInitializedAsync()
     {
-        _cars = new Car[] {
+        _cars = null;
+
+        _loadedCars = new Car[] {
         new Car { Id = 1, Brand = "Bmw", Country = "Germany" },
         new Car { Id = 1, Brand = "Porsche", Country = "Germany" },
         new Car { Id = 1, Brand = "Volswagen", Country = "Germany" },
@@ -41,6 +44,73 @@ else
         new Car { Id = 1, Brand = "Cheverolet", Country = "USA" },
         new Car { Id = 1, Brand = "Peugot", Country = "France" },
         new Car { Id = 1, Brand = "Lamborghini", Country = "Italy" },
-        new Car { Id = 1, Brand = "TVR", Country = "UK" },};
+         new Car { Id = 1, Brand = "Bmw", Country = "Germany" },
+        new Car { Id = 1, Brand = "Porsche", Country = "Germany" },
+        new Car { Id = 1, Brand = "Volswagen", Country = "Germany" },
+        new Car { Id = 1, Brand = "Ford", Country = "USA" },
+        new Car { Id = 1, Brand = "Alfa Romeo", Country = "Italy" },
+        new Car { Id = 1, Brand = "Cheverolet", Country = "USA" },
+        new Car { Id = 1, Brand = "Peugot", Country = "France" },
+        new Car { Id = 1, Brand = "Lamborghini", Country = "Italy" },
+         new Car { Id = 1, Brand = "Bmw", Country = "Germany" },
+        new Car { Id = 1, Brand = "Porsche", Country = "Germany" },
+        new Car { Id = 1, Brand = "Volswagen", Country = "Germany" },
+        new Car { Id = 1, Brand = "Ford", Country = "USA" },
+        new Car { Id = 1, Brand = "Alfa Romeo", Country = "Italy" },
+        new Car { Id = 1, Brand = "Cheverolet", Country = "USA" },
+        new Car { Id = 1, Brand = "Peugot", Country = "France" },
+        new Car { Id = 1, Brand = "Lamborghini", Country = "Italy" },
+         new Car { Id = 1, Brand = "Bmw", Country = "Germany" },
+        new Car { Id = 1, Brand = "Porsche", Country = "Germany" },
+        new Car { Id = 1, Brand = "Volswagen", Country = "Germany" },
+        new Car { Id = 1, Brand = "Ford", Country = "USA" },
+        new Car { Id = 1, Brand = "Alfa Romeo", Country = "Italy" },
+        new Car { Id = 1, Brand = "Cheverolet", Country = "USA" },
+        new Car { Id = 1, Brand = "Peugot", Country = "France" },
+        new Car { Id = 1, Brand = "Lamborghini", Country = "Italy" },
+         new Car { Id = 1, Brand = "Bmw", Country = "Germany" },
+        new Car { Id = 1, Brand = "Porsche", Country = "Germany" },
+        new Car { Id = 1, Brand = "Volswagen", Country = "Germany" },
+        new Car { Id = 1, Brand = "Ford", Country = "USA" },
+        new Car { Id = 1, Brand = "Alfa Romeo", Country = "Italy" },
+        new Car { Id = 1, Brand = "Cheverolet", Country = "USA" },
+        new Car { Id = 1, Brand = "Peugot", Country = "France" },
+        new Car { Id = 1, Brand = "Lamborghini", Country = "Italy" },
+         new Car { Id = 1, Brand = "Bmw", Country = "Germany" },
+        new Car { Id = 1, Brand = "Porsche", Country = "Germany" },
+        new Car { Id = 1, Brand = "Volswagen", Country = "Germany" },
+        new Car { Id = 1, Brand = "Ford", Country = "USA" },
+        new Car { Id = 1, Brand = "Alfa Romeo", Country = "Italy" },
+        new Car { Id = 1, Brand = "Cheverolet", Country = "USA" },
+        new Car { Id = 1, Brand = "Peugot", Country = "France" },
+        new Car { Id = 1, Brand = "Lamborghini", Country = "Italy" },
+         new Car { Id = 1, Brand = "Bmw", Country = "Germany" },
+        new Car { Id = 1, Brand = "Porsche", Country = "Germany" },
+        new Car { Id = 1, Brand = "Volswagen", Country = "Germany" },
+        new Car { Id = 1, Brand = "Ford", Country = "USA" },
+        new Car { Id = 1, Brand = "Alfa Romeo", Country = "Italy" },
+        new Car { Id = 1, Brand = "Cheverolet", Country = "USA" },
+        new Car { Id = 1, Brand = "Peugot", Country = "France" },
+        new Car { Id = 1, Brand = "Lamborghini", Country = "Italy" },
+         new Car { Id = 1, Brand = "Bmw", Country = "Germany" },
+        new Car { Id = 1, Brand = "Porsche", Country = "Germany" },
+        new Car { Id = 1, Brand = "Volswagen", Country = "Germany" },
+        new Car { Id = 1, Brand = "Ford", Country = "USA" },
+        new Car { Id = 1, Brand = "Alfa Romeo", Country = "Italy" },
+        new Car { Id = 1, Brand = "Cheverolet", Country = "USA" },
+        new Car { Id = 1, Brand = "Peugot", Country = "France" },
+        new Car { Id = 1, Brand = "Lamborghini", Country = "Italy" },
+       new Car { Id = 1, Brand = "TVR", Country = "UK" },};
+
+    }
+
+    private void ModalOpen()
+    {
+        _openModal = true;
+    }
+
+    private void LoadCars()
+    {
+        _cars = _loadedCars;
     }
 }
