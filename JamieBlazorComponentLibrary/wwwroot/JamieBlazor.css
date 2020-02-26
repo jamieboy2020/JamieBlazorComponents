@@ -2,48 +2,54 @@
 
 /*AutoComplete*/
 
-.select-item-container input {
+.auto-complete-container input {
     max-width: 100%;
 }
 
-.dropdown {
+.auto-complete-dropdown {
     border: 2px solid;
     max-height: 60vh;
     border-top: none;
     border-color: #1d2a59;
     padding: 0px;
     overflow-y: scroll;
+    position:relative;
 }
 
-    .dropdown ul {
-        padding: 0px;
-    }
+.auto-complete-dropdown ul {
+    padding: 0px;
+}
 
-.dropdown-item:focus {
+.auto-complete-dropdown-item {
+    padding:0.25rem 1.5rem;
+    font-weight:400;
+}
+
+.auto-complete-dropdown-item:hover {
+     background-color: #c6c6c6;
+     cursor: pointer;
+}
+
+
+.auto-complete-dropdown-item-highlighted {
     background-color: #c6c6c6;
-    cursor: pointer;
 }
 
-
-.dropdown-item-highlighted {
-    background-color: #c6c6c6;
-}
-
-.dropdown-item-selected,
-.dropdown-item-selected:hover {
+.auto-complete-dropdown-item-selected,
+.auto-complete-dropdown-item-selected:hover {
     background-color: #1d2a59;
     color: white;
 }
 
-.dropdown-hide {
+.auto-complete-dropdown-hide {
     display: none;
 }
 
 
 /* Input Button*/
 
-.select-item-container {
-    padding-top: 10px;
+.auto-complete-container {
+    padding-top:15px;
 }
 
 .group {
@@ -108,11 +114,12 @@ label {
     position: relative;
     display: block;
     width: 100%;
+
 }
 
     .bar:before {
         content: "";
-        height: 2px;
+        height: 1.2px;
         width: 0;
         bottom: 0px;
         position: absolute;
@@ -124,8 +131,8 @@ label {
 
 .clear-input {
     float: right;
-    position:relative;
-    top:5px;
+    position:absolute;
+    right:10px;
 }
 
 .clear-input:hover {

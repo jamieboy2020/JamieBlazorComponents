@@ -8,21 +8,21 @@ window.functions = {
 
     setupCloseDropDown: function (dotnetClass) {  
         document.addEventListener("click", function (e) {
-            if (e.target !== undefined && !e.target.classList.contains("dropdown") && e.target.id !== "search") {
+            if (e.target !== undefined && !e.target.classList.contains("auto-complete-dropdown") && !e.target.classList.contains("text-box")) {
                 //document.getElementsByClassName("dropdown")[0].classList.add("dropdown-hide");
                 dotnetClass.invokeMethodAsync("CloseDropDown");               
                 }
             });     
     },
 
-    checkItemListScroll: function (key) {
+    checkItemListScroll: function (key,dropDownElement) {
 
-        let highlightedItem = document.getElementsByClassName("dropdown-item-highlighted")[0];
-        let dropDownBox = document.getElementsByClassName("dropdown")[0];
-
-        if (highlightedItem !== undefined) {
+        let dropDownBox = dropDownElement;
+        let highlightedItem = dropDownElement.querySelector(".auto-complete-dropdown-item-highlighted");
+        
+        if (highlightedItem !== null) {
             let DDTop = dropDownBox.scrollTop;
-            let DDBottom = DDTop + dropDownBox.clientHeight - highlightedItem.clientHeight;
+            let DDBottom = DDTop + dropDownBox.clientHeight;
             let itemTop = highlightedItem.offsetTop;
             let itemBottom = itemTop + highlightedItem.clientHeight;
 
